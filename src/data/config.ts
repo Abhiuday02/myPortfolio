@@ -1,0 +1,44 @@
+const config = {
+  title: "Abhiuday Pratap Singh | Full-Stack Developer",
+  description: {
+    long: "Explore the portfolio of Abhiuday, a full-stack developer and creative technologist specializing in interactive web experiences, 3D animations, and innovative projects. Discover my latest work, including Coding Ducks, The Booking Desk, Ghostchat, and more. Let's build something amazing together!",
+    short:
+      "Discover the portfolio of Abhiuday, a full-stack developer creating interactive web experiences and innovative projects.",
+  },
+  keywords: [
+    "Abhiuday",
+    "portfolio",
+    "full-stack developer",
+    "creative technologist",
+    "web development",
+    "3D animations",
+    "interactive websites",
+    "Coding Ducks",
+    "The Booking Desk",
+    "Ghostchat",
+    "web design",
+    "GSAP",
+    "React",
+    "Next.js",
+    "Spline",
+    "Framer Motion",
+  ],
+  author: "Abhiuday Pratap Singh",
+  email: "abhiuday789@gmail.com",
+  site: "https://abhi-teamparadox.in",
+
+  // for github stars button
+  githubUsername: "Abhiuday02",
+  githubRepo: "portfolio",
+
+  get ogImg() {
+    return this.site + "/assets/seo/og-image.png";
+  },
+  social: {
+    twitter: "https://x.com/abhiuday_02",
+    linkedin: "https://www.linkedin.com/in/abhiuday-pratap-singh-3745232b9/",
+    instagram: "https://www.instagram.com/abhiuday_02",
+    github: "https://github.com/Abhiuday02",
+  },
+};
+export { config };
