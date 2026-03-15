@@ -18,6 +18,8 @@ interface HeaderProps {
 
 const Header = ({ loader }: HeaderProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
+  const portfolioGithubUrl = `https://github.com/${config.githubUsername}/${config.githubRepo}`;
+
   return (
     <motion.header
       className={cn(
@@ -56,6 +58,16 @@ const Header = ({ loader }: HeaderProps) => {
 
         <FunnyThemeToggle className="w-6 h-6 mr-4 hidden md:flex" />
         {process.env.NEXT_PUBLIC_WS_URL && <OnlineUsers />}
+        <Link
+          href={portfolioGithubUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:flex"
+        >
+          <Button variant={"outline"} className="mr-4">
+            GitHub Portfolio
+          </Button>
+        </Link>
         {config.githubUsername && config.githubRepo && (
           <GitHubStarsButton
             username={config.githubUsername}

@@ -29,7 +29,7 @@ const config = {
 
   // for github stars button
   githubUsername: "Abhiuday02",
-  githubRepo: "portfolio",
+  githubRepo: "myPortfolio",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";
