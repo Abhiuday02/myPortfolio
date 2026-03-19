@@ -101,7 +101,7 @@ const RemoteCursors = () => {
   );
 };
 
-const Cursor = ({
+const Cursor = React.memo(function Cursor({
   color,
   x,
   y,
@@ -117,7 +117,7 @@ const Cursor = ({
   socketId: string;
   avatar: string;
   isFocused?: boolean;
-}) => {
+}) {
   const [showText, setShowText] = useState(false);
   const [msgText, setMsgText] = useState("");
   const { msgs, users } = useContext(SocketContext);
@@ -250,6 +250,6 @@ const Cursor = ({
       </motion.div>
     </motion.div>
   );
-};
+});
 
 export default RemoteCursors;
