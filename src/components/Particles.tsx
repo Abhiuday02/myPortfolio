@@ -31,18 +31,35 @@ export default function Particles({
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
+  const animationFrameId = useRef<number | null>(null);
 
   useEffect(() => {
-    if (isBlogPost) return
+    if (isBlogPost) return;
     if (canvasRef.current) {
       context.current = canvasRef.current.getContext("2d");
     }
     initCanvas();
-    animate();
+    animationFrameId.current = window.requestAnimationFrame(animate);
     window.addEventListener("resize", initCanvas);
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        if (animationFrameId.current !== null) {
+          cancelAnimationFrame(animationFrameId.current);
+          animationFrameId.current = null;
+        }
+      } else if (animationFrameId.current === null) {
+        animationFrameId.current = window.requestAnimationFrame(animate);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       window.removeEventListener("resize", initCanvas);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      if (animationFrameId.current !== null) {
+        cancelAnimationFrame(animationFrameId.current);
+      }
     };
   }, [isBlogPost]);
 
@@ -229,7 +246,7 @@ export default function Particles({
         );
       }
     });
-    window.requestAnimationFrame(animate);
+    animationFrameId.current = window.requestAnimationFrame(animate);
   };
 
   if (isBlogPost) return null;

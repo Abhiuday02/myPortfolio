@@ -16,7 +16,7 @@ import {
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { opacity } from "../header/anim";
 
 export const FloatingDock = ({
@@ -101,6 +101,14 @@ const FloatingDockDesktop = ({
   const [showHint, setShowHint] = useState(true);
   const timer = useRef<NodeJS.Timeout>();
   const controls = useAnimation();
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      mouseX.set(e.pageX);
+      setShowHint(false);
+    },
+    [mouseX]
+  );
+  const handleMouseLeave = useCallback(() => mouseX.set(Infinity), [mouseX]);
   useEffect(() => {
     if (showHint) {
       controls.start({
@@ -126,11 +134,8 @@ const FloatingDockDesktop = ({
   return (
     <div className="relative h-fit flex items-center justify-center pointer-events-auto">
       <motion.div
-        onMouseMove={(e) => {
-          mouseX.set(e.pageX);
-          setShowHint(false);
-        }}
-        onMouseLeave={() => mouseX.set(Infinity)}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         className={cn(
           // "hidden md:flex",
           "flex gap-2 md:gap-4",
@@ -169,7 +174,7 @@ const FloatingDockDesktop = ({
   );
 };
 
-function IconContainer({
+const IconContainer = memo(function IconContainer({
   mouseX,
   title,
   icon,
@@ -248,4 +253,4 @@ function IconContainer({
       </motion.div>
     </motion.div>
   );
-}
+})

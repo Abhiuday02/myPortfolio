@@ -31,6 +31,7 @@ const AnimatedBackground = () => {
   // Animation controllers refs
   const bongoAnimationRef = useRef<{ start: () => void; stop: () => void }>();
   const keycapAnimationsRef = useRef<{ start: () => void; stop: () => void }>();
+  const keycapStopTimeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const [keyboardRevealed, setKeyboardRevealed] = useState(false);
   const router = useRouter();
@@ -219,7 +220,8 @@ const AnimatedBackground = () => {
         });
         tweens.push(t);
       });
-      setTimeout(removePrevTweens, 1000);
+      clearTimeout(keycapStopTimeoutRef.current);
+      keycapStopTimeoutRef.current = setTimeout(removePrevTweens, 1000);
     };
 
     return { start, stop };
@@ -286,6 +288,8 @@ const AnimatedBackground = () => {
     return () => {
       bongoAnimationRef.current?.stop()
       keycapAnimationsRef.current?.stop()
+      clearTimeout(keycapStopTimeoutRef.current)
+      ScrollTrigger.getAll().forEach(t => t.kill())
     }
 
   }, [splineApp, isMobile]);
